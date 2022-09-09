@@ -5,7 +5,7 @@ import test from 'ava';
 import createTestServer from 'create-test-server';
 import pify from 'pify';
 import pEvent from 'p-event';
-import mimicResponse from './index.js';
+import mimicResponse from './esm/index.js';
 
 const nodejsMajorVersion = process.versions.node.split('.')[0];
 let server;
