@@ -1,78 +1,52 @@
-# mimic-response
+# @esm2cjs/mimic-response
 
-> Mimic a [Node.js HTTP response stream](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
+This is a fork of https://github.com/sindresorhus/mimic-response, but automatically patched to support ESM **and** CommonJS, unlike the original repository.
 
 ## Install
 
+You can use an npm alias to install this package under the original name:
+
 ```
-$ npm install mimic-response
+npm i mimic-response@npm:@esm2cjs/mimic-response
+```
+
+```jsonc
+// package.json
+"dependencies": {
+    "mimic-response": "npm:@esm2cjs/mimic-response"
+}
+```
+
+but `npm` might dedupe this incorrectly when other packages depend on the replaced package. If you can, prefer using the scoped package directly:
+
+```
+npm i @esm2cjs/mimic-response
+```
+
+```jsonc
+// package.json
+"dependencies": {
+    "@esm2cjs/mimic-response": "^ver.si.on"
+}
 ```
 
 ## Usage
 
 ```js
-import {PassThrough as PassThroughStream} from 'node:stream';
-import mimicResponse from 'mimic-response';
+// Using ESM import syntax
+import mimicResponse from "@esm2cjs/mimic-response";
 
-const responseStream = getHttpResponseStream();
-const myStream = new PassThroughStream();
-
-mimicResponse(responseStream, myStream);
-
-console.log(myStream.statusCode);
-//=> 200
+// Using CommonJS require()
+const mimicResponse = require("@esm2cjs/mimic-response").default;
 ```
 
-## API
+> **Note:**
+> Because the original module uses `export default`, you need to append `.default` to the `require()` call.
 
-### mimicResponse(from, to)
+For more details, please see the original [repository](https://github.com/sindresorhus/mimic-response).
 
-**Note #1:** The `from.destroy(error)` function is not proxied. You have to call it manually:
+## Sponsoring
 
-```js
-import {PassThrough as PassThroughStream} from 'node:stream';
-import mimicResponse from 'mimic-response';
+To support my efforts in maintaining the ESM/CommonJS hybrid, please sponsor [here](https://github.com/sponsors/AlCalzone).
 
-const responseStream = getHttpResponseStream();
-
-const myStream = new PassThroughStream({
-	destroy(error, callback) {
-		responseStream.destroy();
-
-		callback(error);
-	}
-});
-
-myStream.destroy();
-```
-
-Please note that `myStream` and `responseStream` never throw. The error is passed to the request instead.
-
-#### from
-
-Type: `Stream`
-
-[Node.js HTTP response stream.](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
-
-#### to
-
-Type: `Stream`
-
-Any stream.
-
-## Related
-
-- [mimic-fn](https://github.com/sindresorhus/mimic-fn) - Make a function mimic another one
-- [clone-response](https://github.com/lukechilds/clone-response) - Clone a Node.js response stream
-
----
-
-<div align="center">
-	<b>
-		<a href="https://tidelift.com/subscription/pkg/npm-mimic-response?utm_source=npm-mimic-response&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
-	</b>
-	<br>
-	<sub>
-		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
-	</sub>
-</div>
+To support the original author of the module, please sponsor [here](https://github.com/sindresorhus/mimic-response).
